@@ -13,6 +13,8 @@ const AddCardModal = ({
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [columnId, setColumnId] = useState(1);
+  const [titleError, setTitleError] = useState(false); // State to manage title validation
+  const [descriptionError, setDescriptionError] = useState(false); // State to manage description validation
 
   useEffect(() => {
     if (editingCard) {
@@ -29,8 +31,12 @@ const AddCardModal = ({
   const handleSubmit = (e) => {
     e.preventDefault(); // Add this line to prevent default form submission behavior
 
-    const isValidTitle = /^[a-zA-Z]+$/.test(title);
+    const isValidTitle = /^[a-zA-Z][a-zA-Z ]+[a-zA-Z]$/.test(title);
     const isValidDescription = description.length >= 25;
+
+    // Update the titleError and descriptionError states based on validation results
+    setTitleError(!isValidTitle);
+    setDescriptionError(!isValidDescription);
 
     if (isValidTitle && isValidDescription) {
       const card = {
@@ -68,30 +74,40 @@ const AddCardModal = ({
         <Modal.Title>{editingCard ? "Edit Card" : "Add Card"}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit} className=" ">
           <Form.Group controlId="formTitle">
-            <Form.Label>Title</Form.Label>
+            <Form.Label className="fw-bold ">Title</Form.Label>
             <Form.Control
               type="text"
               placeholder="Enter title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
+              isInvalid={titleError} // Add isInvalid prop to highlight the input if there's an error
             />
+            {/* Show validation text if title is invalid */}
+            <Form.Control.Feedback type="invalid">
+              Title should only contain alphabets.
+            </Form.Control.Feedback>
           </Form.Group>
 
-          <Form.Group controlId="formDescription">
-            <Form.Label>Description</Form.Label>
+          <Form.Group controlId="formDescription" className="mt-3">
+            <Form.Label className="fw-bold ">Description</Form.Label>
             <Form.Control
               as="textarea"
               rows={3}
               placeholder="Enter description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
+              isInvalid={descriptionError} // Add isInvalid prop to highlight the input if there's an error
             />
+            {/* Show validation text if description is invalid */}
+            <Form.Control.Feedback type="invalid">
+              Description should be at least 25 characters long.
+            </Form.Control.Feedback>
           </Form.Group>
 
-          <Form.Group controlId="formColumn">
-            <Form.Label>Column</Form.Label>
+          <Form.Group controlId="formColumn" className="mt-3">
+            <Form.Label className="fw-bold ">Select Status</Form.Label>
             <Form.Control
               as="select"
               value={columnId}
@@ -103,14 +119,20 @@ const AddCardModal = ({
             </Form.Control>
           </Form.Group>
 
-          <Button variant="primary" type="submit">
-            {editingCard ? "Update Card" : "Add Card"}
-          </Button>
-          {editingCard && (
-            <Button variant="danger" onClick={handleDelete} className="ml-2">
-              Delete Card
+          <div className="d-flex justify-content-between  ">
+            <Button variant="primary " type="submit" className="mt-3 shadow ">
+              {editingCard ? "Update Card" : "Add Card"}
             </Button>
-          )}
+            {editingCard && (
+              <Button
+                variant="danger"
+                onClick={handleDelete}
+                className="ml-2 mt-3"
+              >
+                Delete Card
+              </Button>
+            )}
+          </div>
         </Form>
       </Modal.Body>
     </Modal>

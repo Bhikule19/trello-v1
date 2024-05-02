@@ -1,6 +1,7 @@
 import React from "react";
-import Card from "./Card";
+import { Card, Button, ListGroup } from "react-bootstrap";
 import { handleDragOver, handleDrop } from "../utils/utils";
+import CardComponent from "./Card";
 
 const Column = ({ column, onAddCard, onEditCard, updateCard }) => {
   const handleAddCard = () => {
@@ -13,28 +14,34 @@ const Column = ({ column, onAddCard, onEditCard, updateCard }) => {
 
   return (
     <div
-      className="col-4"
+      className="col-4 h-100"
       onDragOver={(e) => handleDragOver(e)}
       onDrop={(e) => handleDrop(e, column.id, updateCard)}
     >
-      <div className="card">
-        <div className="card-header d-flex justify-content-between ">
-          <h5>{column.title}</h5>
-          <button className="btn btn-primary btn-sm" onClick={handleAddCard}>
+      <Card>
+        <Card.Header className="d-flex justify-content-between">
+          <Card.Title>{column.title}</Card.Title>
+          <Button
+            variant="dark "
+            size="sm"
+            onClick={handleAddCard}
+            className="shadow rounded-3"
+          >
             Add Card
-          </button>
-        </div>
-        <div className="card-body">
+          </Button>
+        </Card.Header>
+        <ListGroup variant="flush">
           {column.cards.map((card) => (
-            <Card
-              key={card.id}
-              card={card}
-              onEditCard={handleEditCard}
-              updateCard={updateCard}
-            />
+            <ListGroup.Item key={card.id}>
+              <CardComponent
+                card={card}
+                onEditCard={handleEditCard}
+                updateCard={updateCard}
+              />
+            </ListGroup.Item>
           ))}
-        </div>
-      </div>
+        </ListGroup>
+      </Card>
     </div>
   );
 };

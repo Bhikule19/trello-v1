@@ -1,24 +1,25 @@
 import React from "react";
+import { Card } from "react-bootstrap";
 import { handleDragStart } from "../utils/utils";
 
-const Card = ({ card, onEditCard }) => {
+const CardComponent = ({ card, onEditCard, updateCard }) => {
   const handleEditCard = () => {
     onEditCard(card);
   };
 
   return (
-    <div
-      className="card mb-3"
+    <Card
+      className="mb-3 draggable"
       onClick={handleEditCard}
       draggable
       onDragStart={(e) => handleDragStart(e, card)}
     >
-      <div className="card-body">
-        <h5 className="card-title">{card.title}</h5>
-        <p className="card-text">{card.description}</p>
-      </div>
-    </div>
+      <Card.Body className="shadow">
+        <Card.Title>{card.title}</Card.Title>
+        <Card.Text>{card.description}</Card.Text>
+      </Card.Body>
+    </Card>
   );
 };
 
-export default Card;
+export default CardComponent;

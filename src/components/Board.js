@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import Column from "./Column";
 import AddCardModal from "./AddCardModal";
 
@@ -14,6 +14,7 @@ const Board = () => {
           { id: 3, title: "Done", cards: [] },
         ];
   });
+
   const [showModal, setShowModal] = useState(false);
   const [editingCard, setEditingCard] = useState(null);
 
@@ -32,13 +33,28 @@ const Board = () => {
 
   const handleEditCard = (updatedCard) => {
     const newColumns = [...columns];
-    const columnIndex = newColumns.findIndex(
+    const oldColumnIndex = newColumns.findIndex((col) =>
+      col.cards.some((card) => card.id === updatedCard.id)
+    );
+    const newColumnIndex = newColumns.findIndex(
       (col) => col.id === updatedCard.columnId
     );
-    const cardIndex = newColumns[columnIndex].cards.findIndex(
+
+    // Remove the card from the old column
+    newColumns[oldColumnIndex].cards = newColumns[oldColumnIndex].cards.filter(
+      (card) => card.id !== updatedCard.id
+    );
+
+    // Add or update the card in the new column
+    const cardIndex = newColumns[newColumnIndex].cards.findIndex(
       (card) => card.id === updatedCard.id
     );
-    newColumns[columnIndex].cards[cardIndex] = updatedCard;
+    if (cardIndex === -1) {
+      newColumns[newColumnIndex].cards.push(updatedCard);
+    } else {
+      newColumns[newColumnIndex].cards[cardIndex] = updatedCard;
+    }
+
     setColumns(newColumns);
     setShowModal(false);
     setEditingCard(null);
@@ -73,29 +89,34 @@ const Board = () => {
     const newColumnIndex = newColumns.findIndex(
       (col) => col.id === updatedCard.columnId
     );
-
     // Remove the card from the old column
     newColumns[oldColumnIndex].cards = newColumns[oldColumnIndex].cards.filter(
       (card) => card.id !== updatedCard.id
     );
-
     // Add the card to the new column
-    newColumns[newColumnIndex].cards.push(updatedCard);
+    if (oldColumnIndex !== newColumnIndex) {
+      newColumns[newColumnIndex].cards.push(updatedCard);
+    }
 
     setColumns(newColumns);
   };
 
   return (
     <div>
-      <h1>Trello Clone</h1>
-      <div className="d-flex gap-4">
+      <heading>
+        <h1 className="display-3">Trello Clone</h1>
+      </heading>
+
+      <div className="board row">
         {columns.map((column) => (
           <Column
             key={column.id}
+            className="col-md-4 col-sm-6"
             column={column}
             onAddCard={handleOpenModal}
             onEditCard={handleOpenModal}
             updateCard={updateCard}
+            onDeleteCard={handleDeleteCard}
           />
         ))}
       </div>
