@@ -1,76 +1,10 @@
-<!-- # Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/ troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
- -->
-
 # Trello Clone App
+
+![](./src/assets/Overview.gif)
+
+> ## For Detailed documentation, kindly go through the pdf [here](https://drive.google.com/file/d/1YdHYhEklG2kkdhQ-2iMHNqpiBKgmNFtd/view?usp=sharing)
+
+> ## 🚀 [Deployed Link](https://trello-v1-dusky.vercel.app/) - Click here for live preview
 
 ## Installation
 
@@ -99,148 +33,41 @@ The application is built using React components. Here's a brief overview of the 
 
 The Board component is the main component that manages the state of the columns and cards. It initializes the columns and cards data from the browser's localStorage, or with a default set of columns if no data is stored.
 
-// src/components/Board.js
-const [columns, setColumns] = useState(() => {
-const savedColumns = localStorage.getItem("columns");
-return savedColumns
-? JSON.parse(savedColumns)
-: [
-{ id: 1, title: "To Do", cards: [] },
-{ id: 2, title: "In Progress", cards: [] },
-{ id: 3, title: "Done", cards: [] },
-];
-});
+![](./src/assets/Trello%20ss1.png)
+
+The Board component is the main component that manages the state of the columns and cards. It initializes the columns and cards data from the browser's localStorage, or with a default set of columns if no data is stored.
 
 The Board component provides methods for adding, editing, deleting, and updating cards, as well as handling the opening and closing of the modal for these actions.
-// src/components/Board.js
-const handleAddCard = (card) => {
-const newColumns = [...columns];
-const columnIndex = newColumns.findIndex((col) => col.id === card.columnId);
-newColumns[columnIndex].cards.push(card);
-setColumns(newColumns);
-setShowModal(false);
-};
 
-const handleEditCard = (updatedCard) => {
-const newColumns = [...columns];
-const columnIndex = newColumns.findIndex(
-(col) => col.id === updatedCard.columnId
-);
-const cardIndex = newColumns[columnIndex].cards.findIndex(
-(card) => card.id === updatedCard.id
-);
-newColumns[columnIndex].cards[cardIndex] = updatedCard;
-setColumns(newColumns);
-setShowModal(false);
-setEditingCard(null);
-};
+### Column Component
 
-const handleDeleteCard = (cardId, columnId) => {
-const newColumns = [...columns];
-const columnIndex = newColumns.findIndex((col) => col.id === columnId);
-newColumns[columnIndex].cards = newColumns[columnIndex].cards.filter(
-(card) => card.id !== cardId
-);
-setColumns(newColumns);
-setShowModal(false);
-setEditingCard(null);
-};
-
-Column Component
+![](./src/assets/ss2.png)
 
 The Column component represents a single column on the board. It renders the column title, an "Add Card" button, and a list of Card components for the cards within the column.
+
 The Column component also handles the drag and drop functionality for moving cards between columns using the handleDragOver and handleDrop utility functions.
 
-Card Component
+### Card Component
+
+![](./src/assets/ss3.png)
 
 The Card component represents a single card within a column. It displays the card's title and description, and handles the drag and drop functionality for moving cards within the same column or to other columns.
 
-    <Card
-      className="mb-3 draggable"
-      onClick={handleEditCard}
-      draggable
-      onDragStart={(e) => handleDragStart(e, card)}
-    >
-      <Card.Body className="shadow">
-        <Card.Title>{card.title}</Card.Title>
-        <Card.Text>{card.description}</Card.Text>
-      </Card.Body>
-    </Card>
+### AddCardModal Component
 
-AddCardModal Component
+![](./src/assets/ss4.png)
 
 The AddCardModal component is a modal dialog that allows users to add a new card or edit an existing card. It displays input fields for the card's title, description, and the column to which the card should be added or moved.
 
- <Form onSubmit={handleSubmit} className=" ">
-          <Form.Group controlId="formTitle">
-            <Form.Label className="fw-bold ">Title</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              isInvalid={titleError} // Add isInvalid prop to highlight the input if there's an error
-            />
-            {/* Show validation text if title is invalid */}
-            <Form.Control.Feedback type="invalid">
-              Title should only contain alphabets.
-            </Form.Control.Feedback>
-          </Form.Group>
-
-          <Form.Group controlId="formDescription" className="mt-3">
-            <Form.Label className="fw-bold ">Description</Form.Label>
-            <Form.Control
-              as="textarea"
-              rows={3}
-              placeholder="Enter description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              isInvalid={descriptionError} // Add isInvalid prop to highlight the input if there's an error
-            />
-            {/* Show validation text if description is invalid */}
-            <Form.Control.Feedback type="invalid">
-              Description should be at least 25 characters long.
-            </Form.Control.Feedback>
-          </Form.Group>
-
-
-          <Form.Group controlId="formColumn" className="mt-3">
-            <Form.Label className="fw-bold ">Select Status</Form.Label>
-            <Form.Control
-              as="select"
-              value={columnId}
-              onChange={(e) => setColumnId(parseInt(e.target.value))}
-            >
-              <option value={1}>To Do</option>
-              <option value={2}>In Progress</option>
-              <option value={3}>Done</option>
-            </Form.Control>
-          </Form.Group>
-
-
-          <div className="d-flex justify-content-between  ">
-            <Button variant="primary " type="submit" className="mt-3 shadow ">
-              {editingCard ? "Update Card" : "Add Card"}
-            </Button>
-            {editingCard && (
-              <Button
-                variant="danger"
-                onClick={handleDelete}
-                className="ml-2 mt-3"
-              >
-                Delete Card
-              </Button>
-            )}
-          </div>
-        </Form>
-
+![](./src/assets/ss5.png)
 The AddCardModal component performs input validation to ensure that the title is alphanumeric and the description has at least 25 characters. It also provides buttons for adding/updating a card or deleting an existing card.
 
-Rendering
+## Rendering
 
 The Board component is the root component of the application and is responsible for rendering the columns and the AddCardModal component.
 
-<div>
+> <div>
+
       <heading>
         <h1 className="display-3">Trello Clone</h1>
       </heading>
@@ -269,132 +96,58 @@ The Board component is the root component of the application and is responsible 
     </div>
 
 The Column components are rendered within a CSS grid layout, and each Column component renders its respective cards using the Card component.
-Functionality
-Adding a Card
-To add a new card, click the "Add Card" button in the column where you want to add the card. This will open the AddCardModal component. Enter the title, description, and select the column where you want to add the card, then click the "Add Card" button.
 
-const handleSubmit = (e) => {
-e.preventDefault(); // Add this line to prevent default form submission behavior
+## Functionality
 
-    const isValidTitle = /^[a-zA-Z][a-zA-Z ]+[a-zA-Z]$/.test(title);
-    const isValidDescription = description.length >= 25;
+### 1. Adding a Card
 
+- To add a new card, click the "Add Card" button in the column where you want to add the card. This will open the AddCardModal component. Enter the title, description, and select the column where you want to add the card, then click the "Add Card" button.
+  ![](./src/assets/Addingthecard.gif)
 
-    // Update the titleError and descriptionError states based on validation results
-    setTitleError(!isValidTitle);
-    setDescriptionError(!isValidDescription);
+- When the user clicks the "Add Card" button in a column, the AddCardModal component is rendered with an empty form. The user can then enter the title, description, and select the column where they want to add the card.
 
+### 2. Editing a Card
 
-    if (isValidTitle && isValidDescription) {
-      const card = {
-        id: editingCard ? editingCard.id : Date.now(),
-        title,
-        description,
-        columnId,
-      };
+- When the user clicks on an existing card, the AddCardModal component is opened with the card's current data pre-filled in the form fields. The handleOpenModal function in the Board component is called, which sets the editingCard state to the clicked card object and opens the modal by setting the showModal state to true.
 
+![](./src/assets/Editingthecard)
 
-      if (editingCard) {
-        onEditCard(card);
-      } else {
-        onAddCard(card);
-      }
+- In the AddCardModal component, the useEffect hook is used to update the title, description, and columnId state variables with the corresponding values from the editingCard object when it changes.
 
+### 3. Deleting a Card
 
-      // Reset form fields after successful submission
-      setTitle("");
-      setDescription("");
-      setColumnId(1);
-    } else {
-      // Show error messages or handle validation errors
-      console.log("Invalid input");
-    }
+- To delete a card, open the AddCardModal component by clicking on the card you want to delete. In the modal, click the "Delete Card" button to remove the card from the board.
+  ![](./src/assets/Deletingthecard.gif)
 
-};
+- When the user wants to delete a card, they first need to open the AddCardModal component by clicking on the card they wish to delete. This will set the editingCard state to the selected card object and open the modal by setting the showModal state to true.
 
-Editing a Card
+### 4. Drag and Drop Feature
 
-To edit an existing card, click on the card you want to edit. This will open the AddCardModal component with the card's current title, description, and column pre-filled. Make the desired changes and click the "Update Card" button to save the changes.
+- To move a card between columns, simply drag and drop the card onto the desired column. The application uses the handleDragStart, handleDragOver, and handleDrop utility functions to handle the drag and drop functionality.
 
-const handleEditCard = (updatedCard) => {
-const newColumns = [...columns];
-const oldColumnIndex = newColumns.findIndex((col) =>
-col.cards.some((card) => card.id === updatedCard.id)
-);
-const newColumnIndex = newColumns.findIndex(
-(col) => col.id === updatedCard.columnId
-);
+![](./src/assets/DrapnDropFeature.gif)
 
-    // Remove the card from the old column
-    newColumns[oldColumnIndex].cards = newColumns[oldColumnIndex].cards.filter(
-      (card) => card.id !== updatedCard.id
-    );
+- The application uses the HTML5 Drag and Drop API to enable users to move cards between columns by dragging and dropping them onto the desired column container. The process involves three main steps: initiating the drag, handling the drag over event, and handling the drop event.
 
+### 5. Validation
 
-    // Add or update the card in the new column
-    const cardIndex = newColumns[newColumnIndex].cards.findIndex(
-      (card) => card.id === updatedCard.id
-    );
-    if (cardIndex === -1) {
-      newColumns[newColumnIndex].cards.push(updatedCard);
-    } else {
-      newColumns[newColumnIndex].cards[cardIndex] = updatedCard;
-    }
+- The AddCardModal component now includes validation for the card title and description fields. The validation rules are as follows:
 
+  - Title Validation:
 
-    setColumns(newColumns);
-    setShowModal(false);
-    setEditingCard(null);
+    - The title should only contain alphabets (uppercase and lowercase) and spaces.
+    - The title should not start or end with a space.
+    - The regular expression used for validation is /^[a-zA-Z][a-zA-Z ]+[a-zA-Z]$/.
 
-};
+  - Description Validation:
+    - The description should be at least 25 characters long.
 
-Deleting a Card
-To delete a card, open the AddCardModal component by clicking on the card you want to delete. In the modal, click the "Delete Card" button to remove the card from the board.
+![](./src/assets/Validation.gif)
 
-const handleDelete = () => {
-if (editingCard) {
-onDeleteCard(editingCard.id, editingCard.columnId);
-}
-};
+### 6. Data Persistence
 
-Moving Cards
-To move a card between columns, simply drag and drop the card onto the desired column. The application uses the handleDragStart, handleDragOver, and handleDrop utility functions to handle the drag and drop functionality.
+- The application stores the columns and cards data in the browser's localStorage, ensuring that the data persists across page refreshes or browser sessions.
 
-export const handleDragStart = (e, card) => {
-e.dataTransfer.setData("text/plain", JSON.stringify(card));
-};
+![](./src/assets/DataState.gif)
 
-export const handleDragOver = (e) => {
-e.preventDefault();
-};
-
-export const handleDrop = (e, columnId, updateCard) => {
-e.preventDefault();
-const card = JSON.parse(e.dataTransfer.getData("text/plain"));
-updateCard({ ...card, columnId });
-};
-
-Validation
-The AddCardModal component now includes validation for the card title and description fields. The validation rules are as follows:
-
-- Title Validation:
-  The title should only contain alphabets (uppercase and lowercase) and spaces.
-  The title should not start or end with a space.
-  The regular expression used for validation is /^[a-zA-Z][a-zA-Z ]+[a-zA-Z]$/.
-- Description Validation:
-  The description should be at least 25 characters long.
-
-      const isValidTitle = /^[a-zA-Z][a-zA-Z ]+[a-zA-Z]$/.test(title);
-      const isValidDescription = description.length >= 25;
-
-
-      // Update the titleError and descriptionError states based on validation  results
-      setTitleError(!isValidTitle);
-      setDescriptionError(!isValidDescription);
-
-Data Persistence
-The application stores the columns and cards data in the browser's localStorage, ensuring that the data persists across page refreshes or browser sessions.
-useEffect(() => {
-// Store columns data in localStorage whenever it changes
-localStorage.setItem("columns", JSON.stringify(columns));
-}, [columns]);
+- The application uses the browser's localStorage to persist the columns and cards data across page refreshes or browser sessions. This means that users can close the application or refresh the page, and their data will still be available when they reopen the application.
