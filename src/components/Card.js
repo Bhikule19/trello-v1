@@ -1,6 +1,6 @@
 import React from "react";
 import { Card } from "react-bootstrap";
-import { handleDragStart } from "../utils/utils";
+import { handleDragStart } from "../utils/utility";
 
 const CardComponent = ({ card, onEditCard, updateCard }) => {
   const handleEditCard = () => {

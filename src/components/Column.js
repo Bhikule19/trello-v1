@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, Button, ListGroup } from "react-bootstrap";
-import { handleDragOver, handleDrop } from "../utils/utils";
+import { handleDragOver, handleDrop } from "../utils/utility";
 import CardComponent from "./Card";
 
 const Column = ({ column, onAddCard, onEditCard, updateCard }) => {

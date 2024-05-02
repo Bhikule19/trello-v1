@@ -89,12 +89,28 @@ const Board = () => {
     const newColumnIndex = newColumns.findIndex(
       (col) => col.id === updatedCard.columnId
     );
-    // Remove the card from the old column
-    newColumns[oldColumnIndex].cards = newColumns[oldColumnIndex].cards.filter(
-      (card) => card.id !== updatedCard.id
-    );
-    // Add the card to the new column
-    if (oldColumnIndex !== newColumnIndex) {
+
+    // If the card is being dropped in the same column
+    if (oldColumnIndex === newColumnIndex) {
+      // Remove the card from its current position
+      newColumns[oldColumnIndex].cards = newColumns[
+        oldColumnIndex
+      ].cards.filter((card) => card.id !== updatedCard.id);
+
+      // Add the card to its new position
+      const updatedCards = [...newColumns[oldColumnIndex].cards];
+      const targetIndex = updatedCards.findIndex(
+        (card) => card.id === updatedCard.id
+      );
+      updatedCards.splice(targetIndex, 0, updatedCard);
+      newColumns[oldColumnIndex].cards = updatedCards;
+    } else {
+      // Remove the card from the old column
+      newColumns[oldColumnIndex].cards = newColumns[
+        oldColumnIndex
+      ].cards.filter((card) => card.id !== updatedCard.id);
+
+      // Add the card to the new column
       newColumns[newColumnIndex].cards.push(updatedCard);
     }
 
