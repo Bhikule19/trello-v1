@@ -110,7 +110,7 @@ The Column components are rendered within a CSS grid layout, and each Column com
 
 - When the user clicks on an existing card, the AddCardModal component is opened with the card's current data pre-filled in the form fields. The handleOpenModal function in the Board component is called, which sets the editingCard state to the clicked card object and opens the modal by setting the showModal state to true.
 
-![](./src/assets/Editingthecard)
+![](./src/assets/Editingthecard.gif)
 
 - In the AddCardModal component, the useEffect hook is used to update the title, description, and columnId state variables with the corresponding values from the editingCard object when it changes.
 
