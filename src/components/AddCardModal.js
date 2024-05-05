@@ -1,4 +1,3 @@
-// src/components/AddCardModal.js
 import React, { useState, useEffect } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 
@@ -29,12 +28,12 @@ const AddCardModal = ({
   }, [editingCard]);
 
   const handleSubmit = (e) => {
-    e.preventDefault(); // Add this line to prevent default form submission behavior
+    e.preventDefault();
 
     const isValidTitle = /^[a-zA-Z][a-zA-Z ]+[a-zA-Z]$/.test(title);
     const isValidDescription = description.length >= 25;
 
-    // Update the titleError and descriptionError states based on validation results
+    // Updating the titleError and descriptionError states based on validation results
     setTitleError(!isValidTitle);
     setDescriptionError(!isValidDescription);
 
@@ -82,7 +81,7 @@ const AddCardModal = ({
               placeholder="Enter title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              isInvalid={titleError} // Add isInvalid prop to highlight the input if there's an error
+              isInvalid={titleError}
             />
             {/* Show validation text if title is invalid */}
             <Form.Control.Feedback type="invalid">
@@ -98,7 +97,7 @@ const AddCardModal = ({
               placeholder="Enter description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              isInvalid={descriptionError} // Add isInvalid prop to highlight the input if there's an error
+              isInvalid={descriptionError}
             />
             {/* Show validation text if description is invalid */}
             <Form.Control.Feedback type="invalid">
